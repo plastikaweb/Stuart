@@ -1,8 +1,7 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
+  "name": "stuart-app",
+  "description": "An exercise for Stuart",
   "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -10,6 +9,9 @@
     "angular-route": "~1.4.0",
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
-    "html5-boilerplate": "~5.2.0"
-  }
+    "bootstrap": "~3.3.5"
+  },
+  "authors": [
+    "Carlos Matheu <info@plastikaweb.com>"
+  ]
 }
