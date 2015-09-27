@@ -5,7 +5,9 @@ angular.module('stuartApp')
 
 function stuartApi($http, apiUrl) {
   var req = {
+    url: apiUrl,
     method: 'GET',
+    responseType: 'json',
     headers: {
       'Content-Type': 'application/json',
       'x-channel': 'mobile'
@@ -13,7 +15,10 @@ function stuartApi($http, apiUrl) {
   };
   return {
     getData: function (limit, offset) {
-      req.url = apiUrl + '?limit=' + limit + '&offset=' + offset;
+      req.params = {
+        'limit': limit,
+        'offset': offset
+      };
       return $http(req);
     }
   };

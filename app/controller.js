@@ -4,9 +4,11 @@ angular.module('stuartApp')
   .controller('stuartController', stuartController);
 
 function stuartController($scope, stuartApi) {
-  $scope.tasksList = [];
+  $scope.jobsList = [];
+  $scope.lastCollection = [];
   $scope.errorMessage = '';
   $scope.isLoading = isLoading;
+  $scope.loadMoreJobs = loadMoreJobs;
   $scope.offset = 0;
   $scope.limit = 10;
 
@@ -18,26 +20,29 @@ function stuartController($scope, stuartApi) {
   }
 
   //pagination update
-  function updateLimit(limit) {
-    $scope.limit = limit;
+  function loadMoreJobs() {
+    $scope.offset += 10;
     getTasks();
   }
 
   //load initial data
   getTasks();
 
+  $scope.$watchCollection('jobsList', function(newNames, oldNames) {
+    console.log($('body').height());
+    window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+  });
+
   function getTasks() {
     loading = true;
-    $scope.tasksList = [];
 
     stuartApi.getData($scope.limit, $scope.offset)
-      .success(function (data) {
-        console.log(data);
-        $scope.tasksList = data;
+      .then(function (response) {
+        $scope.lastCollection = response.data;
+        $scope.jobsList = $scope.jobsList.concat($scope.lastCollection);
         loading = false;
-      })
-      .error(function (err) {
-        $scope.errorMessage = 'Something is wrong...';
+      }, function (response) {
+        $scope.errorMessage = response.data || 'Something is wrong...';
         loading = false;
       });
   }
