@@ -3,14 +3,13 @@
 angular.module('stuartApp')
   .controller('stuartController', stuartController);
 
-function stuartController($scope, stuartApi) {
+function stuartController($scope, stuartApi, googleMapsApi) {
   $scope.jobsList = [];
-  $scope.lastCollection = [];
   $scope.errorMessage = '';
   $scope.isLoading = isLoading;
   $scope.loadMoreJobs = loadMoreJobs;
   $scope.offset = 0;
-  $scope.limit = 10;
+  $scope.limit = 5;
 
   var loading = false;
 
@@ -21,16 +20,22 @@ function stuartController($scope, stuartApi) {
 
   //pagination update
   function loadMoreJobs() {
-    $scope.offset += 10;
+    $scope.offset += $scope.limit;
     getTasks();
   }
 
   //load initial data
   getTasks();
 
-  $scope.$watchCollection('jobsList', function(newNames, oldNames) {
-    console.log($('body').height());
-    window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+  $scope.$watchCollection('jobsList', function (newNames, oldNames) {
+    setTimeout(function() {
+      if( $('.panel').length ) {
+        $('html, body').animate({
+          scrollTop: $('.panel:last').offset().top
+        }, 500);
+      }
+    }, 300);
+
   });
 
   function getTasks() {
@@ -38,12 +43,24 @@ function stuartController($scope, stuartApi) {
 
     stuartApi.getData($scope.limit, $scope.offset)
       .then(function (response) {
-        $scope.lastCollection = response.data;
-        $scope.jobsList = $scope.jobsList.concat($scope.lastCollection);
+        var jobs = response.data;
+        _.forEach(jobs, function (el, key) {
+          if(!_.isUndefined(el.currentDelivery)) {
+            var latitude = el.currentDelivery.driver.currentDriverDevice.lastDriverDeviceLocation.latitude;
+            var longitude = el.currentDelivery.driver.currentDriverDevice.lastDriverDeviceLocation.longitude;
+            el.map = googleMapsApi.getMap(latitude, longitude);
+            el.map.polyline = googleMapsApi.getPolyline(el.currentDelivery.suggestedPolylineToDestination);
+          }
+        });
+
+        $scope.jobsList = $scope.jobsList.concat(jobs);
         loading = false;
       }, function (response) {
         $scope.errorMessage = response.data || 'Something is wrong...';
         loading = false;
       });
   }
+
 }
+
+

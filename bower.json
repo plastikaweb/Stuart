@@ -6,8 +6,10 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
-    "angular-google-maps": "~2.2.1",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "lodash": "~3.10.1",
+    "angular-simple-logger": "~0.1.3",
+    "angular-google-maps": "~2.2.1"
   },
   "authors": [
     "Carlos Matheu <info@plastikaweb.com>"
