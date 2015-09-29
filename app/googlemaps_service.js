@@ -9,7 +9,7 @@
 
     return {
       getMap: function (lat, long) {
-        return {center: {latitude: lat, longitude: long}, zoom: zoom};
+        return {latitude: lat, longitude: long, zoom: zoom};
       },
       getPolyline: function (code) {
         return {
