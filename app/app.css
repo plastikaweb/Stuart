@@ -19,8 +19,9 @@
 .collapse {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-
+    text-align: center;
 }
+
 address > img {
     width: 100px;
     float: left;
