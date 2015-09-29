@@ -2,7 +2,7 @@
   "name": "stuart-app",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
+  "description": "An exercise for Stuart",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.3.1"
